@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aura Beauty Studio by Pooja — Luxury Beauty Experience in Vastral, Ahmedabad</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Londrina+Solid:wght@400;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              studio: {
+                bg: '#FAF7F2',
+                surface: '#F3EDE4',
+                dark: '#171412',
+                text: '#1C1917',
+                muted: '#655E57',
+                bronze: '#B87D64',
+                darkBronze: '#9E654E',
+                sage: '#2D6A4F',
+                border: '#E6DEC8'
+              }
+            },
+            fontFamily: {
+              editorial: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+              sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+    <!-- React & Babel CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      :root {
+        --cb-hue: 20deg;
+        --cb-gray1: #FAF7F2;
+        --cb-gray9: #1C1917;
+        --cb-black: #1C1917;
+        --cb-primary3: #E6C5B5;
+        --cb-primary5: #B87D64;
+        --cb-primary6: #9E654E;
+        --cb-trans-dur: 0.3s;
+      }
+
+      .creepy-btn {
+        background-color: var(--cb-black);
+        border-radius: 9999px;
+        color: var(--cb-gray1);
+        cursor: pointer;
+        letter-spacing: 0.08em;
+        min-width: 9.5em;
+        padding: 0;
+        border: 0;
+        outline: 0.1875em solid transparent;
+        transition: outline 0.1s linear;
+        -webkit-tap-highlight-color: transparent;
+        font-family: 'Plus Jakarta Sans', 'Londrina Solid', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        position: relative;
+        display: inline-block;
+      }
+
+      .creepy-btn__cover {
+        background-color: var(--cb-primary5);
+        box-shadow: 0 0 0 0.115em var(--cb-black) inset;
+        padding: 0.9em 1.55em;
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        position: relative;
+        z-index: 1;
+        transform-origin: 1.25em 50%;
+        transition:
+          background-color var(--cb-trans-dur),
+          transform var(--cb-trans-dur) cubic-bezier(0.65, 0, 0.35, 1);
+        inset: 0;
+      }
+
+      .creepy-btn__eyes {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 0.375em;
+        right: 1em;
+        bottom: 0.6em;
+        height: 0.75em;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .creepy-btn__eye {
+        animation: cb-eye-blink 3s infinite;
+        background-color: var(--cb-gray1);
+        border-radius: 50%;
+        overflow: hidden;
+        width: 0.75em;
+        height: 0.75em;
+        position: relative;
+        display: block;
+      }
+
+      .creepy-btn__pupil {
+        background-color: var(--cb-black);
+        border-radius: 50%;
+        display: block;
+        position: absolute;
+        width: 0.375em;
+        height: 0.375em;
+        top: 50%;
+        left: 50%;
+      }
+
+      .creepy-btn:focus-visible {
+        outline: 0.1875em solid var(--cb-primary3);
+      }
+
+      .creepy-btn:hover .creepy-btn__cover,
+      .creepy-btn:focus-visible .creepy-btn__cover {
+        background-color: var(--cb-primary6);
+        transform: rotate(-12deg);
+        transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1.65);
+      }
+
+      .creepy-btn.creepy-btn--long .creepy-btn__eyes {
+        right: 1.15em;
+        bottom: 0.42em;
+      }
+
+      .creepy-btn.creepy-btn--long:hover .creepy-btn__cover,
+      .creepy-btn.creepy-btn--long:focus-visible .creepy-btn__cover {
+        background-color: var(--cb-primary6);
+        transform: translateY(-2px) rotate(-3deg);
+        transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1.65);
+      }
+
+      .creepy-btn:active .creepy-btn__cover,
+      .creepy-btn.creepy-btn--long:active .creepy-btn__cover {
+        transform: translateY(0) rotate(0);
+        transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+      }
+
+      @keyframes cb-eye-blink {
+        0%,
+        92%,
+        100% {
+          animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0);
+          height: 0.75em;
+        }
+        96% {
+          animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+          height: 0;
+        }
+      }
+
+      @keyframes slowSpinSeal {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .animate-spin-seal {
+        animation: slowSpinSeal 22s linear infinite;
+      }
+
+      .font-serif-editorial {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+      }
+
+      .font-sans-ui {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      .specular-card {
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.65), 0 20px 50px -15px rgba(28, 25, 23, 0.08);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body class="bg-[#FAF7F2] text-[#1C1917] antialiased selection:bg-[#B87D64]/20 selection:text-[#1C1917]">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useRef } = React;
+
+      // Studio Constants
+      const STUDIO_PHONE_DISPLAY = '+91 90992 65655';
+      const STUDIO_WHATSAPP_NUMBER = '919099265655';
+      const STUDIO_EMAIL = 'hello@aurabypooja.com';
+      const STUDIO_ADDRESS =
+        'Shop no. 4, Shantiniketan - 3, Nr. Bapasitaram Chowk, Opp. RAF Camp, Vastral Ring Road, Ahmedabad - 382418';
+      const STUDIO_GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/euKTgrJXowY6tmoS7';
+      const STUDIO_MAP_EMBED_URL =
+        'https://www.google.com/maps?q=Aura+Beauty+Studio+By+Pooja+Shantiniketan+3+Vastral+Ring+Road+Ahmedabad+382418&output=embed';
+
+      const CB_THEMES = {
+        roseBronze: {
+          '--cb-primary5': '#B87D64',
+          '--cb-primary6': '#9E654E',
+          '--cb-primary3': '#E6C5B5',
+          '--cb-black': '#1C1917',
+          '--cb-gray1': '#FAF7F2'
+        },
+        espresso: {
+          '--cb-primary5': '#1C1917',
+          '--cb-primary6': '#332E2A',
+          '--cb-primary3': '#B87D64',
+          '--cb-black': '#0C0A09',
+          '--cb-gray1': '#FAF7F2'
+        },
+        sage: {
+          '--cb-primary5': '#2D6A4F',
+          '--cb-primary6': '#23533D',
+          '--cb-primary3': '#74C69D',
+          '--cb-black': '#081C15',
+          '--cb-gray1': '#FAF7F2'
+        },
+        alabaster: {
+          '--cb-primary5': '#FAF7F2',
+          '--cb-primary6': '#E6DDD0',
+          '--cb-primary3': '#D49B82',
+          '--cb-black': '#0C0A09',
+          '--cb-gray1': '#1C1917'
+        }
+      };
+
+      const CHAPTERS = [
+        { id: 'act-1', code: 'ACT I — ARRIVAL', short: 'I. Arrival' },
+        { id: 'act-2', code: 'ACT II — ABOUT POOJA’S ATELIER', short: 'II. About Us' },
+        { id: 'act-3', code: 'ACT III — THE SILK VEIL PEAK', short: 'III. Transformation' },
+        { id: 'act-4', code: 'ACT IV — 6 SIGNATURE SERVICES', short: 'IV. Services' },
+        { id: 'act-5', code: 'ACT V — 35MM LOOKBOOK', short: 'V. Lookbook' },
+        { id: 'act-6', code: 'ACT VI — DIRECT BOOKING & MAP', short: 'VI. Concierge' }
+      ];
+
+      const MANIFESTO_TEXT =
+        'Experience premium beauty services with expert care. From haircuts to facials, waxing to hair spa — we bring out your natural glow with luxury and perfection at Aura Beauty Studio by Pooja.';
+
+      const MANIFESTO_PLATES = [
+        {
+          id: 'plate-01',
+          index: '01 / HAIR CUT, STYLING & HAIR SPA',
+          title: 'Precision Haircuts, Blowouts & Deep Argan Hair Spa',
+          subtitle: 'Tailored to Your Face Shape & Hair Texture',
+          description:
+            'From transformational layered cuts and festive blowouts to deep-conditioning Keratin and Moroccan Argan hair spa rituals that revive dry, damaged strands.',
+          image:
+            'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1000&q=85',
+          metric: '100% Genuine Salon-Grade Formulations'
+        },
+        {
+          id: 'plate-02',
+          index: '02 / FACIALS, SKIN CARE & WAXING',
+          title: 'Glass-Skin Facials, Detan & Gentle Italian Rica Waxing',
+          subtitle: 'Zero-Downtime Cellular Glow & Smooth Skin',
+          description:
+            'Custom Hydra-Facials, O3+ bridal glow treatments, and liposoluble Rica waxing designed for sensitive Indian skin tones with strict hygiene protocols.',
+          image:
+            'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=85',
+          metric: '5.0★ Rated Hygiene & Skin Care in Vastral'
+        },
+        {
+          id: 'plate-03',
+          index: '03 / BRIDAL MAKEUP & MANI-PEDI',
+          title: 'HD & Airbrush Bridal Makeup + Rose-Quartz Mani-Pedi',
+          subtitle: 'Complete Head-to-Toe Bridal & Festive Perfection',
+          description:
+            'Flawless, sweat-resistant HD and Airbrush bridal makeovers by Pooja, paired with relaxing spa manicure and pedicure rituals for your big day.',
+          image:
+            'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1000&q=85',
+          metric: '52+ Verified 5.0★ Google Client Reviews'
+        }
+      ];
+
+      const TRANSFORMATION_SHOWCASES = [
+        {
+          id: 'trans-bridal',
+          label: 'Bridal Makeup by Pooja',
+          serviceMatch: 'Bridal Makeup (HD & Airbrush Couture)',
+          duration: '180–240 Mins • Private Bridal Suite',
+          price: '₹15,000+',
+          beforeLabel: 'STAGE 01 — DERMAL HYDRATION & PRIMER PREP',
+          afterLabel: 'STAGE 02 — FLAWLESS HD ROYAL BRIDAL GLOW',
+          beforeImage:
+            'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=85',
+          afterImage:
+            'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=85',
+          luminanceBase: 68,
+          luminancePeak: 99.4,
+          hydrationGain: '12-Hour Sweat & Tear Resistant Finish',
+          note: 'Signature skin-first Gujarati & Indian bridal artistry by Pooja—crafted to look luminous in person and under 4K wedding photography.'
+        },
+        {
+          id: 'trans-hair',
+          label: 'Hair Cut, Styling & Hair Spa',
+          serviceMatch: 'Hair Spa (Deep Keratin & Moroccan Argan)',
+          duration: '75 Mins • Scalp & Strand Revival',
+          price: '₹1,200+',
+          beforeLabel: 'STAGE 01 — DRY, FRIZZY POROSITY DIAGNOSTIC',
+          afterLabel: 'STAGE 02 — MIRROR-SHINE ARGAN SPA & STYLING',
+          beforeImage:
+            'https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1200&q=85',
+          afterImage:
+            'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=85',
+          luminanceBase: 61,
+          luminancePeak: 98.2,
+          hydrationGain: '3.4x Silk Smoothness & Frizz Control',
+          note: 'Deep steam infusion with keratin proteins and warm acupressure head massage followed by a bouncy signature blowout.'
+        }
+      ];
+
+      const SERVICE_CATEGORIES = [
+        { id: 'all', label: 'All 6 Services' },
+        { id: 'hair-cut', label: 'Hair Cut & Styling' },
+        { id: 'facials', label: 'Facials & Skin Care' },
+        { id: 'hair-spa', label: 'Hair Spa' },
+        { id: 'waxing', label: 'Waxing' },
+        { id: 'bridal', label: 'Bridal Makeup' },
+        { id: 'mani-pedi', label: 'Manicure & Pedicure' }
+      ];
+
+      const SERVICES_DATA = [
+        {
+          id: 'srv-1',
+          code: '01',
+          category: 'hair-cut',
+          categoryLabel: 'Hair Cut & Styling',
+          name: 'Hair Cut & Styling (Precision Layering & Blowout)',
+          duration: '60 Mins',
+          price: '₹650+',
+          stylistTier: 'Pooja & Senior Hair Stylists',
+          botanicalNotes: 'Heat-Protectant Argan Serum • Volume & Bounce Finish',
+          tag: 'Signature Service',
+          image:
+            'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85',
+          description:
+            'Customized feather, butterfly, step, or bob haircuts tailored to your facial geometry, complete with a relaxing hair wash and salon silk blowout or curls.'
+        },
+        {
+          id: 'srv-2',
+          code: '02',
+          category: 'facials',
+          categoryLabel: 'Facials & Skin Care',
+          name: 'Facials & Skin Care (Glass-Skin Hydra & O3+ Glow)',
+          duration: '75 Mins',
+          price: '₹1,500+',
+          stylistTier: 'Lead Skin Aesthetician',
+          botanicalNotes: 'O3+ Bridal Brightening • Hyaluronic & Vitamin C Infusion',
+          tag: 'Most Popular',
+          image:
+            'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85',
+          description:
+            'Deep pore cleansing, detan resurfacing, lymphatic facial massage, and brightening hydro-jelly masks that restore your natural glow with zero redness.'
+        },
+        {
+          id: 'srv-3',
+          code: '03',
+          category: 'hair-spa',
+          categoryLabel: 'Hair Spa',
+          name: 'Hair Spa (Deep Keratin & Moroccan Argan Ritual)',
+          duration: '60 Mins',
+          price: '₹1,200+',
+          stylistTier: 'Scalp & Texture Specialist',
+          botanicalNotes: 'Moroccan Argan Oil • Pro-Keratin Steam Masque',
+          tag: 'Frizz Control',
+          image:
+            'https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=900&q=85',
+          description:
+            'Intensive nourishing hair spa with ozone micro-mist steam, 20-minute stress-relief head & shoulder massage, and bond-repairing mask for silky, dandruff-free hair.'
+        },
+        {
+          id: 'srv-4',
+          code: '04',
+          category: 'waxing',
+          categoryLabel: 'Waxing',
+          name: 'Waxing (Italian Rica Liposoluble Smooth Ritual)',
+          duration: '45 Mins',
+          price: '₹799+',
+          stylistTier: 'Certified Hygiene Therapist',
+          botanicalNotes: 'White Chocolate & Aloe Vera Rica Wax • Post-Wax Calming Oil',
+          tag: 'Gentle & Hygienic',
+          image:
+            'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85',
+          description:
+            'Single-use cartridge and spatula waxing using genuine Italian Rica formulations that remove tan, prevent ingrown hair, and leave sensitive skin feather-soft.'
+        },
+        {
+          id: 'srv-5',
+          code: '05',
+          category: 'bridal',
+          categoryLabel: 'Bridal Makeup',
+          name: 'Bridal Makeup (HD Airbrush & Royal Bridal Couture)',
+          duration: '210 Mins',
+          price: '₹15,000+',
+          stylistTier: 'Pooja — Founder & Master Bridal Artist',
+          botanicalNotes: 'MAC / NARS / Huda Beauty • Waterproof HD & Airbrush',
+          tag: 'Bridal Flagship',
+          image:
+            'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=85',
+          description:
+            'Complete luxury bridal transformation including skin prep, HD or silicon airbrush base, intricate floral/bun hairstyling, premium lashes, and saree/lehenga draping.'
+        },
+        {
+          id: 'srv-6',
+          code: '06',
+          category: 'mani-pedi',
+          categoryLabel: 'Manicure & Pedicure',
+          name: 'Manicure & Pedicure (Rose-Quartz Spa & Nail Care)',
+          duration: '60 Mins',
+          price: '₹950+',
+          stylistTier: 'Spa & Nail Technician',
+          botanicalNotes: 'Himalayan Rose Salt Soak • Shea Butter Foot Masque',
+          tag: 'Relaxing Spa',
+          image:
+            'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=85',
+          description:
+            'Aromatic warm bubble soak, cuticle detailing, heel callus softening scrub, reflexology foot massage, and high-gloss nail buffing or gel polish.'
+        }
+      ];
+
+      const LOOKBOOK_ITEMS = [
+        {
+          id: 'lb-1',
+          frame: 'SERVICE 01 • HAIR CUT & STYLING',
+          title: 'Signature Layered Cut & Bouncy Blowout',
+          category: 'Hair Cut & Styling',
+          serviceMatch: 'Hair Cut & Styling (Precision Layering & Blowout)',
+          duration: '60 Mins',
+          stylist: 'Aura Beauty Studio — By Pooja',
+          image:
+            'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1000&q=85',
+          caption:
+            'Face-framing layers and voluminous styling tailored for effortless everyday luxury.'
+        },
+        {
+          id: 'lb-2',
+          frame: 'SERVICE 05 • BRIDAL MAKEUP',
+          title: 'Royal HD Bridal Glow & Traditional Styling',
+          category: 'Bridal Makeup',
+          serviceMatch: 'Bridal Makeup (HD Airbrush & Royal Bridal Couture)',
+          duration: '210 Mins',
+          stylist: 'Pooja — Master Bridal Makeup Artist',
+          image:
+            'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1000&q=85',
+          caption:
+            'Flawless, long-wear bridal artistry with custom eye detailing, jewelry setting, and draping.'
+        },
+        {
+          id: 'lb-3',
+          frame: 'SERVICE 02 • FACIALS & SKIN CARE',
+          title: 'Luminous Glass-Skin Hydra & Detan Facial',
+          category: 'Facials & Skin Care',
+          serviceMatch: 'Facials & Skin Care (Glass-Skin Hydra & O3+ Glow)',
+          duration: '75 Mins',
+          stylist: 'Aura Skin Care Suite — Vastral',
+          image:
+            'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=85',
+          caption:
+            'Deep hydration and instant brightness using genuine O3+ and botanical actives.'
+        },
+        {
+          id: 'lb-4',
+          frame: 'SERVICE 03 • HAIR SPA',
+          title: 'Moroccan Argan & Keratin Steam Hair Spa',
+          category: 'Hair Spa',
+          serviceMatch: 'Hair Spa (Deep Keratin & Moroccan Argan Ritual)',
+          duration: '60 Mins',
+          stylist: 'Aura Hair Sanctuary — Ahmedabad',
+          image:
+            'https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1000&q=85',
+          caption:
+            'Restores moisture, repairs split ends, and delivers mirror-like shine in a single session.'
+        },
+        {
+          id: 'lb-5',
+          frame: 'SERVICE 04 • WAXING',
+          title: 'Italian Rica Smooth Skin & Detan Care',
+          category: 'Waxing',
+          serviceMatch: 'Waxing (Italian Rica Liposoluble Smooth Ritual)',
+          duration: '45 Mins',
+          stylist: 'Hygienic Private Treatment Room',
+          image:
+            'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1000&q=85',
+          caption:
+            'Gentle colophony-free Rica waxing that nourishes skin while removing stubborn tan.'
+        },
+        {
+          id: 'lb-6',
+          frame: 'SERVICE 06 • MANICURE & PEDICURE',
+          title: 'Rose-Quartz Crystal Spa Mani-Pedi',
+          category: 'Manicure & Pedicure',
+          serviceMatch: 'Manicure & Pedicure (Rose-Quartz Spa & Nail Care)',
+          duration: '60 Mins',
+          stylist: 'Aura Nail & Foot Lounge',
+          image:
+            'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1000&q=85',
+          caption:
+            'Complete hand and foot rejuvenation with aromatic salts, scrub, mask, and massage.'
+        }
+      ];
+
+      const TESTIMONIALS_DATA = [
+        {
+          id: 't-1',
+          edition: 'GOOGLE REVIEW HIGHLIGHT • 5.0 ★',
+          clientName: 'Kinjal Patel',
+          role: 'Bridal Client • Vastral, Ahmedabad',
+          service: 'Bridal Makeup (HD Airbrush & Royal Bridal Couture)',
+          rating: 5,
+          quote:
+            '“Pooja di did my wedding and reception makeup and I received endless compliments! My base stayed flawless and natural-looking from morning rituals till late night without feeling heavy.”',
+          date: 'Verified 5.0★ Studio Experience • Bridal Makeup'
+        },
+        {
+          id: 't-2',
+          edition: 'GOOGLE REVIEW HIGHLIGHT • 5.0 ★',
+          clientName: 'Dhruvi Shah',
+          role: 'Regular Client • Ring Road, Ahmedabad',
+          service: 'Facials & Skin Care (Glass-Skin Hydra & O3+ Glow)',
+          rating: 5,
+          quote:
+            '“Best luxury salon near Bapasitaram Chowk! Their facial and hair spa services are super relaxing, hygiene is top-notch, and my skin genuinely glows for weeks after visiting Aura.”',
+          date: 'Verified 5.0★ Studio Experience • Facials & Skin Care'
+        },
+        {
+          id: 't-3',
+          edition: 'GOOGLE REVIEW HIGHLIGHT • 5.0 ★',
+          clientName: 'Riddhi Mehta',
+          role: 'Client • Vastral, Ahmedabad',
+          service: 'Hair Cut & Styling (Precision Layering & Blowout)',
+          rating: 5,
+          quote:
+            '“Got a layered haircut, Rica waxing, and pedicure done at Aura Beauty Studio by Pooja. Very polite staff, reasonable pricing for such a premium ambiance, and great attention to detail.”',
+          date: 'Verified 5.0★ Studio Experience • Hair Cut & Styling'
+        }
+      ];
+
+      const clamp = (val, min = 0, max = 1) => Math.min(max, Math.max(min, val));
+
+      const buildWhatsAppLink = (customContext) => {
+        let text = '';
+        if (customContext && typeof customContext === 'object' && customContext.appointmentRequest) {
+          text = `Hello Pooja mam (Aura Beauty Studio), I would like to confirm my appointment enquiry (${customContext.enquiryId}):\n\n• Name: ${customContext.client.fullName}\n• Service: ${customContext.appointmentRequest.serviceName}\n• Preferred Date: ${customContext.appointmentRequest.preferredDate}\n• Time Slot: ${customContext.appointmentRequest.preferredTimeWindow}\n• Phone: ${customContext.client.phoneOrWhatsapp}\n• Notes: ${customContext.appointmentRequest.clientNotes}`;
+        } else if (typeof customContext === 'string' && customContext.length > 0) {
+          text = `Hello Pooja mam (Aura Beauty Studio), I visited your website and would like to book an appointment for "${customContext}". Please share available slots!`;
+        } else {
+          text = `Hello Pooja mam (Aura Beauty Studio, Vastral), I visited your website and would like to enquire about booking a beauty appointment.`;
+        }
+        return `https://wa.me/${STUDIO_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+      };
+
+      const openWhatsAppWindow = (customContext) => {
+        const url = buildWhatsAppLink(customContext);
+        window.open(url, '_blank', 'noopener,noreferrer');
+      };
+
+      // CreepyButton Component
+      function CreepyButton({
+        children,
+        className = '',
+        onClick,
+        type = 'button',
+        theme = 'roseBronze',
+        long = false,
+        style = {},
+        ...props
+      }) {
+        const eyesRef = useRef(null);
+        const [eyeCoords, setEyeCoords] = useState({ x: 0, y: 0 });
+
+        const translateX = -50 + eyeCoords.x * 50;
+        const translateY = -50 + eyeCoords.y * 50;
+
+        const eyeStyle = {
+          transform: `translate(${translateX}%, ${translateY}%)`
+        };
+
+        const updateEyes = (e) => {
+          const userEvent = 'touches' in e && e.touches.length > 0 ? e.touches[0] : e;
+          if (!eyesRef.current || !userEvent) return;
+          const eyesRect = eyesRef.current.getBoundingClientRect();
+          const eyesCenter = {
+            x: eyesRect.left + eyesRect.width / 2,
+            y: eyesRect.top + eyesRect.height / 2
+          };
+
+          const cursor = { x: userEvent.clientX, y: userEvent.clientY };
+          const dx = cursor.x - eyesCenter.x;
+          const dy = cursor.y - eyesCenter.y;
+          const angle = Math.atan2(-dy, dx) + Math.PI / 2;
+
+          const distance = Math.min(Math.hypot(dx, dy), 200);
+          const x = (Math.sin(angle) * distance) / 150;
+          const y = (Math.cos(angle) * distance) / 100;
+
+          setEyeCoords({ x, y });
+        };
+
+        const resetEyes = () => setEyeCoords({ x: 0, y: 0 });
+        const themeVars = CB_THEMES[theme] || CB_THEMES.roseBronze;
+        const isLongButton = long || className.includes('w-full');
+
+        return (
+          <button
+            className={`creepy-btn ${isLongButton ? 'creepy-btn--long' : ''} ${className}`}
+            type={type}
+            onClick={onClick}
+            onMouseMove={updateEyes}
+            onTouchMove={updateEyes}
+            onMouseLeave={resetEyes}
+            style={{ ...themeVars, ...style }}
+            {...props}
+          >
+            <span className="creepy-btn__eyes" ref={eyesRef}>
+              <span className="creepy-btn__eye">
+                <span className="creepy-btn__pupil" style={eyeStyle}></span>
+              </span>
+              <span className="creepy-btn__eye">
+                <span className="creepy-btn__pupil" style={eyeStyle}></span>
+              </span>
+            </span>
+            <span className="creepy-btn__cover">{children}</span>
+          </button>
+        );
+      }
+
+      // Main App
+      function App() {
+        const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+        const [scrolled, setScrolled] = useState(false);
+        const [activeChapter, setActiveChapter] = useState(CHAPTERS[0]);
+        const [scrollEngine, setScrollEngine] = useState({
+          pageProgress: 0,
+          velocitySkew: 0,
+          act1Progress: 0,
+          act2Progress: 0,
+          act3Progress: 0.52,
+          act5Progress: 0
+        });
+
+        const [heroPointer, setHeroPointer] = useState({ x: 0, y: 0 });
+        const [activeTransIdx, setActiveTransIdx] = useState(0);
+        const [manualVeilOverride, setManualVeilOverride] = useState(null);
+        const [isDraggingVeil, setIsDraggingVeil] = useState(false);
+
+        const [activeServiceTab, setActiveServiceTab] = useState('all');
+        const [hoveredService, setHoveredService] = useState(SERVICES_DATA[0]);
+
+        const [activeLookbookTab, setActiveLookbookTab] = useState('All');
+        const [selectedLightboxItem, setSelectedLightboxItem] = useState(null);
+
+        const [activeQuoteIndex, setActiveQuoteIndex] = useState(0);
+        const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
+
+        const [formData, setFormData] = useState({
+          fullName: '',
+          phone: '',
+          service: 'Bridal Makeup (HD Airbrush & Royal Bridal Couture)',
+          preferredDate: '',
+          timeSlot: 'Afternoon (12:30 PM – 4:00 PM)',
+          stylistTier: 'Pooja — Founder & Master Bridal Artist (210 Mins)',
+          notes: ''
+        });
+        const [formErrors, setFormErrors] = useState({});
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [submittedRecord, setSubmittedRecord] = useState(null);
+        const [serviceHighlightBanner, setServiceHighlightBanner] = useState(null);
+
+        const act1Ref = useRef(null);
+        const act2Ref = useRef(null);
+        const act3Ref = useRef(null);
+        const act4Ref = useRef(null);
+        const act5Ref = useRef(null);
+        const act6Ref = useRef(null);
+        const veilStageRef = useRef(null);
+
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        useEffect(() => {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          setFormData((prev) => ({
+            ...prev,
+            preferredDate: tomorrow.toISOString().split('T')[0]
+          }));
+        }, []);
+
+        useEffect(() => {
+          let rafId = null;
+          let lastScrollY = window.scrollY;
+          let smoothedVel = 0;
+
+          const computeScrollProgress = (el) => {
+            if (!el) return 0;
+            const rect = el.getBoundingClientRect();
+            const vh = window.innerHeight;
+            const totalScrollable = Math.max(1, rect.height - vh);
+            if (rect.height <= vh * 1.15) {
+              return clamp((vh - rect.top) / (vh + rect.height), 0, 1);
+            }
+            return clamp(-rect.top / totalScrollable, 0, 1);
+          };
+
+          const updateFrame = () => {
+            const currentY = window.scrollY;
+            const vh = window.innerHeight;
+            const docHeight = Math.max(1, document.documentElement.scrollHeight - vh);
+            const pageProgress = clamp(currentY / docHeight, 0, 1);
+
+            setScrolled(currentY > 100);
+
+            const delta = currentY - lastScrollY;
+            lastScrollY = currentY;
+            smoothedVel = smoothedVel * 0.8 + delta * 0.2;
+            const velocitySkew = clamp(smoothedVel * 0.06, -2.5, 2.5);
+
+            const act1Progress = act1Ref.current
+              ? clamp(currentY / Math.max(1, act1Ref.current.offsetHeight), 0, 1)
+              : 0;
+            const act2Progress = computeScrollProgress(act2Ref.current);
+            const act3Progress = computeScrollProgress(act3Ref.current);
+            const act5Progress = computeScrollProgress(act5Ref.current);
+
+            setScrollEngine({
+              pageProgress,
+              velocitySkew,
+              act1Progress,
+              act2Progress,
+              act3Progress,
+              act5Progress
+            });
+
+            const refs = [
+              { chapter: CHAPTERS[0], ref: act1Ref },
+              { chapter: CHAPTERS[1], ref: act2Ref },
+              { chapter: CHAPTERS[2], ref: act3Ref },
+              { chapter: CHAPTERS[3], ref: act4Ref },
+              { chapter: CHAPTERS[4], ref: act5Ref },
+              { chapter: CHAPTERS[5], ref: act6Ref }
+            ];
+            const anchorY = vh * 0.38;
+            for (let i = refs.length - 1; i >= 0; i--) {
+              const node = refs[i].ref.current;
+              if (node) {
+                const r = node.getBoundingClientRect();
+                if (r.top <= anchorY) {
+                  setActiveChapter(refs[i].chapter);
+                  break;
+                }
+              }
+            }
+            rafId = null;
+          };
+
+          const onScroll = () => {
+            if (!rafId) rafId = window.requestAnimationFrame(updateFrame);
+          };
+
+          updateFrame();
+          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('resize', onScroll, { passive: true });
+          return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            if (rafId) window.cancelAnimationFrame(rafId);
+          };
+        }, []);
+
+        const currentVeilRatio =
+          manualVeilOverride !== null
+            ? manualVeilOverride
+            : clamp(0.12 + scrollEngine.act3Progress * 0.82, 0.08, 0.94);
+
+        const handleVeilPointerMove = (e) => {
+          if (!veilStageRef.current) return;
+          const clientX = 'touches' in e && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+          const rect = veilStageRef.current.getBoundingClientRect();
+          const ratio = clamp((clientX - rect.left) / Math.max(1, rect.width), 0.04, 0.96);
+          setManualVeilOverride(ratio);
+        };
+
+        const filteredServices =
+          activeServiceTab === 'all'
+            ? SERVICES_DATA
+            : SERVICES_DATA.filter((s) => s.category === activeServiceTab);
+
+        const lookbookCategories = [
+          'All',
+          'Hair Cut & Styling',
+          'Facials & Skin Care',
+          'Hair Spa',
+          'Waxing',
+          'Bridal Makeup',
+          'Manicure & Pedicure'
+        ];
+        const filteredLookbook =
+          activeLookbookTab === 'All'
+            ? LOOKBOOK_ITEMS
+            : LOOKBOOK_ITEMS.filter((item) => item.category === activeLookbookTab);
+
+        const scrollToSection = (sectionId) => {
+          setMobileMenuOpen(false);
+          const el = document.getElementById(sectionId);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        const handleSelectServiceForEnquiry = (serviceName) => {
+          setSelectedLightboxItem(null);
+          setSubmittedRecord(null);
+          const matched = SERVICES_DATA.find((s) => s.name === serviceName);
+          setFormData((prev) => ({
+            ...prev,
+            service: serviceName,
+            stylistTier: matched ? `${matched.stylistTier} (${matched.duration})` : prev.stylistTier
+          }));
+          setServiceHighlightBanner(serviceName);
+
+          const bookingEl = document.getElementById('enquiry-section');
+          if (bookingEl) bookingEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          setTimeout(() => setServiceHighlightBanner(null), 5000);
+        };
+
+        const handleInputChange = (e) => {
+          const { name, value } = e.target;
+          setFormData((prev) => ({ ...prev, [name]: value }));
+          if (formErrors[name]) setFormErrors((prev) => ({ ...prev, [name]: null }));
+        };
+
+        const validateForm = () => {
+          const errors = {};
+          const trimmedName = formData.fullName.trim();
+          const digitsOnly = formData.phone.replace(/\D/g, '');
+
+          if (!trimmedName || trimmedName.length < 2) {
+            errors.fullName = 'Please enter your full name (at least 2 characters).';
+          }
+          if (!digitsOnly || digitsOnly.length < 10 || digitsOnly.length > 15) {
+            errors.phone = 'Please enter a valid 10 to 15-digit phone or WhatsApp number.';
+          }
+          if (!formData.service) {
+            errors.service = 'Please select a ritual or treatment of interest.';
+          }
+          if (!formData.preferredDate) {
+            errors.preferredDate = 'Please select your preferred appointment date.';
+          } else if (formData.preferredDate < todayStr) {
+            errors.preferredDate = 'Preferred date cannot be in the past.';
+          }
+
+          setFormErrors(errors);
+          return Object.keys(errors).length === 0;
+        };
+
+        const handleFormSubmit = (e) => {
+          e.preventDefault();
+          if (!validateForm()) return;
+          setIsSubmitting(true);
+
+          setTimeout(() => {
+            const selectedServiceObj = SERVICES_DATA.find((s) => s.name === formData.service);
+            const refId = `AURA-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            const crmPayload = {
+              enquiryId: refId,
+              brand: 'AURA BEAUTY STUDIO — BY POOJA',
+              location: STUDIO_ADDRESS,
+              googleMapsUrl: STUDIO_GOOGLE_MAPS_URL,
+              client: {
+                fullName: formData.fullName.trim(),
+                phoneOrWhatsapp: formData.phone.trim()
+              },
+              appointmentRequest: {
+                serviceName: formData.service,
+                category: selectedServiceObj ? selectedServiceObj.categoryLabel : 'Bespoke Consultation',
+                estimatedDuration: selectedServiceObj ? selectedServiceObj.duration : '60 Mins',
+                estimatedStartingPrice: selectedServiceObj ? selectedServiceObj.price : 'On Consultation',
+                preferredDate: formData.preferredDate,
+                preferredTimeWindow: formData.timeSlot,
+                stylistTier: formData.stylistTier,
+                clientNotes: formData.notes.trim() || 'None provided'
+              }
+            };
+
+            setSubmittedRecord(crmPayload);
+            setIsSubmitting(false);
+          }, 520);
+        };
+
+        const manifestoWords = MANIFESTO_TEXT.split(' ');
+        const activeManifestoPlateIdx =
+          scrollEngine.act2Progress < 0.34 ? 0 : scrollEngine.act2Progress < 0.68 ? 1 : 2;
+        const activeTransItem = TRANSFORMATION_SHOWCASES[activeTransIdx];
+        const currentLuminanceValue = (
+          activeTransItem.luminanceBase +
+          (activeTransItem.luminancePeak - activeTransItem.luminanceBase) * currentVeilRatio
+        ).toFixed(1);
+
+        return (
+          <div
+            className="min-h-screen antialiased selection:bg-[#B87D64]/20 selection:text-[#1C1917] relative overflow-x-clip"
+            style={{
+              backgroundColor: '#FAF7F2',
+              color: '#1C1917',
+              fontFamily: "'Plus Jakarta Sans', sans-serif"
+            }}
+          >
+            {/* FILM GRAIN */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none fixed inset-0 z-40 opacity-[0.035] mix-blend-multiply"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+              }}
+            />
+
+            {/* HEADER */}
+            <header
+              className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
+                scrolled
+                  ? 'h-[80px] bg-[#FAF7F2]/82 backdrop-blur-md shadow-[0_8px_30px_rgb(28,25,23,0.06)] border-b border-[#1C1917]/10'
+                  : 'h-[100px] bg-transparent border-b border-transparent'
+              }`}
+            >
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between transition-all duration-300 ease-out">
+                <div className="flex items-center gap-5">
+                  <a
+                    href="#top"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`group flex flex-col text-left focus:outline-none origin-left transition-transform duration-300 ease-out ${
+                      scrolled ? 'scale-95' : 'scale-100'
+                    }`}
+                  >
+                    <span className="font-serif-editorial text-2xl sm:text-3xl tracking-[0.16em] font-semibold text-[#1C1917] group-hover:text-[#B87D64] transition-colors">
+                      AURA BEAUTY STUDIO
+                    </span>
+                    <span className="text-[9px] sm:text-[10px] tracking-[0.28em] uppercase text-[#B87D64] font-semibold -mt-1">
+                      BY POOJA • LUXURY BEAUTY EXPERIENCE • VASTRAL
+                    </span>
+                  </a>
+
+                  <div className="hidden xl:flex items-center gap-2 pl-5 border-l border-[#1C1917]/15">
+                    <span className="w-2 h-2 rounded-full bg-[#B87D64] animate-pulse" />
+                    <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-[#1C1917] font-semibold">
+                      {activeChapter.code}
+                    </span>
+                    <span className="font-mono text-[10px] text-[#655E57]">
+                      {Math.round(scrollEngine.pageProgress * 100)}%
+                    </span>
+                  </div>
+                </div>
+
+                <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold uppercase tracking-[0.14em] text-[#1C1917]/80">
+                  <button onClick={() => scrollToSection('act-2')} className="hover:text-[#B87D64] transition-colors py-1">
+                    About Us
+                  </button>
+                  <button onClick={() => scrollToSection('act-3')} className="hover:text-[#B87D64] transition-colors py-1">
+                    Transformations
+                  </button>
+                  <button onClick={() => scrollToSection('act-4')} className="hover:text-[#B87D64] transition-colors py-1">
+                    Our 6 Services
+                  </button>
+                  <button onClick={() => scrollToSection('act-5')} className="hover:text-[#B87D64] transition-colors py-1">
+                    Gallery
+                  </button>
+                  <button onClick={() => scrollToSection('enquiry-section')} className="hover:text-[#B87D64] transition-colors py-1">
+                    Book &amp; Map
+                  </button>
+                </nav>
+
+                <div className="hidden md:flex items-center gap-3">
+                  <CreepyButton theme="sage" onClick={() => openWhatsAppWindow()}>
+                    <span>WhatsApp Pooja</span>
+                  </CreepyButton>
+                  <CreepyButton theme="roseBronze" onClick={() => scrollToSection('enquiry-section')}>
+                    <span>Book Instantly</span>
+                  </CreepyButton>
+                </div>
+
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label="Toggle Menu"
+                  className="lg:hidden p-2.5 rounded-full border border-[#E6DEC8] bg-[#FAF7F2]/90 backdrop-blur-sm text-[#1C1917]"
+                >
+                  {mobileMenuOpen ? '✕' : '☰'}
+                </button>
+              </div>
+
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1C1917]/5 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-[#B87D64] via-[#9E654E] to-[#2D6A4F] transition-transform duration-75 origin-left"
+                  style={{ transform: `scaleX(${scrollEngine.pageProgress})` }}
+                />
+              </div>
+
+              {mobileMenuOpen && (
+                <div className="lg:hidden bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E6DEC8] px-6 py-6 space-y-4 shadow-xl">
+                  <button onClick={() => scrollToSection('act-2')} className="block w-full text-left py-2 border-b border-[#E6DEC8]/60">
+                    Act II — The Atelier Manifesto
+                  </button>
+                  <button onClick={() => scrollToSection('act-3')} className="block w-full text-left py-2 border-b border-[#E6DEC8]/60">
+                    Act III — Silk Veil Transformation Peak
+                  </button>
+                  <button onClick={() => scrollToSection('act-4')} className="block w-full text-left py-2 border-b border-[#E6DEC8]/60">
+                    Act IV — Curated Rituals Ledger
+                  </button>
+                  <button onClick={() => scrollToSection('act-5')} className="block w-full text-left py-2 border-b border-[#E6DEC8]/60">
+                    Act V — 35mm Lookbook Rail
+                  </button>
+                  <button onClick={() => scrollToSection('enquiry-section')} className="block w-full text-left py-2">
+                    Act VI — Direct Booking &amp; Map
+                  </button>
+                </div>
+              )}
+            </header>
+
+            {/* ACT I: HERO */}
+            <section
+              id="top"
+              ref={act1Ref}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                setHeroPointer({ x: nx, y: ny });
+              }}
+              onMouseLeave={() => setHeroPointer({ x: 0, y: 0 })}
+              className="relative overflow-hidden pt-[116px] pb-20 lg:pt-[132px] lg:pb-28 border-b border-[#E6DEC8]"
+            >
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-8 flex flex-wrap items-center justify-between gap-3 py-2.5 px-4 rounded-full bg-[#F3EDE4]/90 border border-[#E6DEC8] text-[11px] text-[#655E57]">
+                  <div className="flex items-center gap-2.5">
+                    <span className="px-2.5 py-0.5 rounded-full text-[9px] font-semibold tracking-[0.18em] uppercase bg-[#2D6A4F] text-[#FAF7F2]">
+                      1-TAP MOBILE BOOKING • NO QR SCAN REQUIRED
+                    </span>
+                    <span>Shop No. 4, Shantiniketan-3, Opp. RAF Camp, Vastral, Ahmedabad</span>
+                  </div>
+                  <div className="flex items-center gap-3 font-medium text-[#1C1917]">
+                    <a href={STUDIO_GOOGLE_MAPS_URL} target="_blank" rel="noreferrer" className="underline hover:text-[#B87D64]">
+                      Open Google Maps
+                    </a>
+                    <span>•</span>
+                    <a href={`tel:${STUDIO_WHATSAPP_NUMBER}`} className="underline hover:text-[#B87D64]">
+                      {STUDIO_PHONE_DISPLAY}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center">
+                  <div className="lg:col-span-7 space-y-8">
+                    <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#F3EDE4] border border-[#E6DEC8]">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#655E57]">
+                        AURA BEAUTY STUDIO — BY POOJA • VASTRAL
+                      </span>
+                    </div>
+
+                    <h1 className="font-serif-editorial text-5xl sm:text-6xl lg:text-[72px] leading-[0.95] tracking-[-0.025em] font-normal text-[#1C1917]">
+                      <span className="block">Luxury Beauty</span>
+                      <span className="block mt-1">
+                        Experience by <span className="italic font-normal text-[#B87D64]">Pooja.</span>
+                      </span>
+                    </h1>
+
+                    <p className="text-base sm:text-lg text-[#655E57] leading-relaxed max-w-[58ch]">
+                      Experience premium beauty services with expert care. From haircuts to facials,
+                      waxing to hair spa — we bring out your natural glow with luxury and perfection.
+                      Book your appointment directly from your phone in seconds.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                      <CreepyButton theme="roseBronze" onClick={() => scrollToSection('enquiry-section')}>
+                        <span>Book Appointment Instantly →</span>
+                      </CreepyButton>
+                      <CreepyButton theme="sage" onClick={() => openWhatsAppWindow()}>
+                        <span>WhatsApp (+91 90992 65655)</span>
+                      </CreepyButton>
+                    </div>
+
+                    <div className="pt-6 grid grid-cols-3 gap-6 max-w-xl border-t border-[#E6DEC8]">
+                      <div>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#B87D64] block">
+                          GOOGLE RATING
+                        </span>
+                        <p className="font-serif-editorial text-2xl sm:text-3xl font-semibold text-[#1C1917]">
+                          5.0 ★ (52+)
+                        </p>
+                        <p className="text-xs text-[#655E57]">Verified Vastral reviews</p>
+                      </div>
+                      <div>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#B87D64] block">
+                          CORE MENU
+                        </span>
+                        <p className="font-serif-editorial text-2xl sm:text-3xl font-semibold text-[#1C1917]">
+                          6 Rituals
+                        </p>
+                        <p className="text-xs text-[#655E57]">Hair, Skin &amp; Bridal</p>
+                      </div>
+                      <div>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#B87D64] block">
+                          OPEN DAILY
+                        </span>
+                        <p className="font-serif-editorial text-2xl sm:text-3xl font-semibold text-[#1C1917]">
+                          10AM–9PM
+                        </p>
+                        <p className="text-xs text-[#655E57]">Opp. RAF Camp, Vastral</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-5 relative">
+                    <div className="relative mx-auto max-w-md lg:max-w-none pt-6 pb-8 px-4">
+                      <div
+                        className="relative z-10 rounded-t-[200px] rounded-b-3xl overflow-hidden border-t border-white/80 border-x border-b border-[#E6DEC8] bg-[#F3EDE4] aspect-[4/5]"
+                        style={{
+                          boxShadow: '24px 24px 0px #E6DDD0, 0 25px 60px -15px rgba(28,25,23,0.18)'
+                        }}
+                      >
+                        <img
+                          src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=85"
+                          alt="Aura Beauty Studio by Pooja Bridal"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+                        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3 text-white">
+                          <div>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/80 block">
+                              AURA BY POOJA • SIGNATURE
+                            </span>
+                            <p className="font-serif-editorial text-2xl italic">
+                              Bridal Makeup &amp; Skin Care
+                            </p>
+                          </div>
+                          <CreepyButton
+                            theme="roseBronze"
+                            onClick={() =>
+                              handleSelectServiceForEnquiry('Bridal Makeup (HD Airbrush & Royal Bridal Couture)')
+                            }
+                            style={{ fontSize: '0.72rem', minWidth: '8.2em' }}
+                          >
+                            <span>Book Look</span>
+                          </CreepyButton>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ACT II: MANIFESTO */}
+            <section id="act-2" ref={act2Ref} className="py-24 border-b border-[#E6DEC8] bg-[#FAF7F2]">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                  <div className="lg:col-span-7 space-y-6">
+                    <span className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[#B87D64] block">
+                      ACT II — THE ATELIER MANIFESTO
+                    </span>
+                    <p className="font-serif-editorial text-3xl sm:text-4xl lg:text-[42px] leading-[1.2] text-[#1C1917]">
+                      {MANIFESTO_TEXT}
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
+                      {MANIFESTO_PLATES.map((p, idx) => (
+                        <div
+                          key={p.id}
+                          className={`p-4 rounded-2xl border ${
+                            activeManifestoPlateIdx === idx ? 'bg-[#F3EDE4] border-[#B87D64]' : 'bg-[#FAF7F2] border-[#E6DEC8]'
+                          }`}
+                        >
+                          <span className="font-mono text-[10px] font-semibold text-[#B87D64] block">
+                            {p.index}
+                          </span>
+                          <p className="text-xs font-semibold text-[#1C1917] mt-1">{p.title}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-5">
+                    {MANIFESTO_PLATES.map((plate, idx) => {
+                      if (idx !== activeManifestoPlateIdx) return null;
+                      return (
+                        <div key={plate.id} className="rounded-3xl overflow-hidden border border-[#E6DEC8] bg-[#F3EDE4] shadow-xl">
+                          <img src={plate.image} alt={plate.title} className="w-full aspect-[4/3] object-cover" />
+                          <div className="p-6 space-y-2">
+                            <span className="text-xs font-semibold uppercase text-[#B87D64] block">
+                              {plate.subtitle}
+                            </span>
+                            <h3 className="font-serif-editorial text-2xl text-[#1C1917]">{plate.title}</h3>
+                            <p className="text-sm text-[#655E57]">{plate.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ACT III: TRANSFORMATION PEAK */}
+            <section id="act-3" ref={act3Ref} className="py-24 bg-[#171412] text-[#FAF7F2] border-y border-[#D49B82]/25">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+                  <div>
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D49B82] block mb-2">
+                      ACT III — THE SILK VEIL TRANSFORMATION PEAK
+                    </span>
+                    <h2 className="font-serif-editorial text-3xl sm:text-5xl text-[#FAF7F2]">
+                      Witness the <span className="italic text-[#D49B82]">Silk Veil</span> Transformation.
+                    </h2>
+                  </div>
+                  <div className="flex gap-2">
+                    {TRANSFORMATION_SHOWCASES.map((item, idx) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setActiveTransIdx(idx);
+                          setManualVeilOverride(null);
+                        }}
+                        className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider ${
+                          activeTransIdx === idx
+                            ? 'bg-[#D49B82] text-[#171412]'
+                            : 'bg-[#26211E] text-[#FAF7F2]/75 border border-[#FAF7F2]/15'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-8">
+                    <div
+                      ref={veilStageRef}
+                      onMouseDown={() => setIsDraggingVeil(true)}
+                      onMouseUp={() => setIsDraggingVeil(false)}
+                      onMouseMove={(e) => {
+                        if (isDraggingVeil || e.buttons === 1) handleVeilPointerMove(e);
+                      }}
+                      onTouchMove={handleVeilPointerMove}
+                      className="relative rounded-3xl overflow-hidden border border-[#D49B82]/35 aspect-[16/10] bg-[#0C0A09] select-none cursor-ew-resize shadow-2xl"
+                    >
+                      <img src={activeTransItem.afterImage} alt="After" className="w-full h-full object-cover" />
+                      <div
+                        className="absolute inset-0 overflow-hidden"
+                        style={{ clipPath: `inset(0 ${100 - currentVeilRatio * 100}% 0 0)` }}
+                      >
+                        <img
+                          src={activeTransItem.beforeImage}
+                          alt="Before"
+                          className="w-full h-full object-cover filter saturate-[0.75]"
+                        />
+                      </div>
+                      <div
+                        className="absolute top-0 bottom-0 z-20 pointer-events-none"
+                        style={{ left: `${currentVeilRatio * 100}%` }}
+                      >
+                        <div className="w-[2px] h-full bg-[#D49B82] shadow-[0_0_20px_4px_rgba(212,155,130,0.85)]" />
+                      </div>
+                      <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded-full bg-[#171412]/80 font-mono text-[10px] uppercase">
+                        {activeTransItem.beforeLabel}
+                      </div>
+                      <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full bg-[#D49B82] text-[#171412] font-mono text-[10px] font-bold uppercase">
+                        {activeTransItem.afterLabel}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-4 space-y-5 bg-[#221E1B] p-6 sm:p-8 rounded-3xl border border-[#D49B82]/25">
+                    <span className="font-mono text-[10px] uppercase text-[#D49B82] block">
+                      ATELIER TELEMETRY • LIVE
+                    </span>
+                    <h3 className="font-serif-editorial text-2xl text-[#FAF7F2]">{activeTransItem.serviceMatch}</h3>
+                    <p className="text-xs text-[#FAF7F2]/80 leading-relaxed">{activeTransItem.note}</p>
+                    <div className="pt-2">
+                      <CreepyButton
+                        theme="roseBronze"
+                        className="w-full"
+                        onClick={() => handleSelectServiceForEnquiry(activeTransItem.serviceMatch)}
+                      >
+                        <span>Book This Transformation</span>
+                      </CreepyButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ACT IV: 6 SIGNATURE SERVICES */}
+            <section id="act-4" ref={act4Ref} className="py-24 border-b border-[#E6DEC8] bg-[#FAF7F2]">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                  <div className="lg:col-span-5 space-y-6">
+                    <span className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[#B87D64] block">
+                      ACT IV — OUR 6 SIGNATURE SERVICES
+                    </span>
+                    <h2 className="font-serif-editorial text-4xl sm:text-5xl text-[#1C1917]">
+                      Curated Rituals Ledger
+                    </h2>
+                    <p className="text-sm text-[#655E57] leading-relaxed">
+                      Haircuts, Facials, Hair Spa, Rica Waxing, Airbrush Bridal &amp; Spa Mani-Pedi.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {SERVICE_CATEGORIES.map((cat) => (
+                        <button
+                          key={cat.id}
+                          onClick={() => setActiveServiceTab(cat.id)}
+                          className={`px-4 py-2 rounded-full text-xs font-semibold uppercase ${
+                            activeServiceTab === cat.id
+                              ? 'bg-[#1C1917] text-[#FAF7F2]'
+                              : 'bg-[#F3EDE4] text-[#655E57] border border-[#E6DEC8]'
+                          }`}
+                        >
+                          {cat.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7 divide-y divide-[#1C1917]/15 border-t border-b border-[#1C1917]/15">
+                    {filteredServices.map((service) => (
+                      <div key={service.id} className="py-7 px-4 hover:bg-[#F3EDE4]/50 transition-colors">
+                        <div className="flex justify-between items-baseline">
+                          <h3 className="font-serif-editorial text-2xl font-medium text-[#1C1917]">
+                            {service.name}
+                          </h3>
+                          <span className="font-serif-editorial text-2xl font-semibold text-[#1C1917]">
+                            {service.price}
+                          </span>
+                        </div>
+                        <p className="text-sm text-[#655E57] mt-2 leading-relaxed">{service.description}</p>
+                        <div className="mt-4 flex gap-3">
+                          <CreepyButton
+                            theme="roseBronze"
+                            onClick={() => handleSelectServiceForEnquiry(service.name)}
+                            style={{ fontSize: '0.75rem' }}
+                          >
+                            <span>Book Ritual →</span>
+                          </CreepyButton>
+                          <CreepyButton
+                            theme="sage"
+                            onClick={() => openWhatsAppWindow(service.name)}
+                            style={{ fontSize: '0.74rem' }}
+                          >
+                            <span>WhatsApp Slot</span>
+                          </CreepyButton>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ACT V: LOOKBOOK */}
+            <section id="act-5" ref={act5Ref} className="py-24 border-b border-[#E6DEC8] bg-[#FAF7F2]">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-8 flex justify-between items-end">
+                  <div>
+                    <span className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[#B87D64] block">
+                      ACT V — 35MM LOOKBOOK
+                    </span>
+                    <h2 className="font-serif-editorial text-3xl sm:text-5xl text-[#1C1917]">
+                      Curated Gallery Archive
+                    </h2>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {LOOKBOOK_ITEMS.map((item) => (
+                    <div
+                      key={item.id}
+                      onClick={() => setSelectedLightboxItem(item)}
+                      className="group rounded-2xl overflow-hidden border border-[#E6DEC8] bg-[#1C1917] cursor-pointer shadow-md"
+                    >
+                      <div className="relative aspect-[4/5] overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#171412]/90 via-[#171412]/20 to-transparent" />
+                        <div className="absolute bottom-5 left-5 right-5 text-white">
+                          <p className="text-[11px] text-[#D49B82] font-mono mb-1">{item.stylist}</p>
+                          <h3 className="font-serif-editorial text-2xl">{item.title}</h3>
+                          <p className="text-xs text-white/80 mt-1">{item.caption}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* LIGHTBOX MODAL */}
+            {selectedLightboxItem && (
+              <div
+                className="fixed inset-0 z-50 bg-[#1C1917]/80 backdrop-blur-sm flex items-center justify-center p-4"
+                onClick={() => setSelectedLightboxItem(null)}
+              >
+                <div
+                  className="bg-[#FAF7F2] border border-[#E6DEC8] rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl p-6"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src={selectedLightboxItem.image}
+                    alt={selectedLightboxItem.title}
+                    className="w-full aspect-[16/10] object-cover rounded-2xl mb-4"
+                  />
+                  <h3 className="font-serif-editorial text-2xl text-[#1C1917]">{selectedLightboxItem.title}</h3>
+                  <p className="text-sm text-[#655E57] mt-2">{selectedLightboxItem.caption}</p>
+                  <div className="mt-6 flex gap-3">
+                    <CreepyButton
+                      theme="roseBronze"
+                      className="w-full"
+                      onClick={() => {
+                        handleSelectServiceForEnquiry(selectedLightboxItem.serviceMatch);
+                        setSelectedLightboxItem(null);
+                      }}
+                    >
+                      <span>Book This Exact Look</span>
+                    </CreepyButton>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ACT VI: BOOKING & MAP */}
+            <section id="enquiry-section" ref={act6Ref} className="py-24 bg-[#F3EDE4] border-b border-[#E6DEC8]">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                  <div className="lg:col-span-5 space-y-6">
+                    <span className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[#B87D64] block">
+                      ACT VI — DIRECT BOOKING &amp; CONCIERGE
+                    </span>
+                    <h2 className="font-serif-editorial text-4xl sm:text-5xl text-[#1C1917]">
+                      Book Your Visit with Pooja.
+                    </h2>
+                    <p className="text-sm text-[#655E57] leading-relaxed">
+                      Instant appointment booking without scanning QR codes. Fast, personal confirmation via WhatsApp or phone call.
+                    </p>
+
+                    <div className="p-6 rounded-3xl bg-[#FAF7F2] border border-[#2D6A4F]/30 space-y-4">
+                      <h3 className="text-base font-semibold text-[#1C1917]">Direct WhatsApp Desk</h3>
+                      <p className="text-xs text-[#655E57]">
+                        Message Pooja directly on WhatsApp at {STUDIO_PHONE_DISPLAY} for fast replies.
+                      </p>
+                      <CreepyButton theme="sage" className="w-full" onClick={() => openWhatsAppWindow(formData.service)}>
+                        <span>WhatsApp Pooja (+91 90992 65655)</span>
+                      </CreepyButton>
+                    </div>
+
+                    <div className="p-6 rounded-3xl bg-[#FAF7F2] border border-[#E6DEC8] space-y-3 text-xs">
+                      <p className="font-semibold text-sm text-[#1C1917]">Aura Beauty Studio — By Pooja</p>
+                      <p className="text-[#655E57]">{STUDIO_ADDRESS}</p>
+                      <p className="text-[#655E57]">Hours: Mon–Sun 10:00 AM – 9:00 PM</p>
+                      <div className="rounded-2xl overflow-hidden border border-[#E6DEC8] h-44">
+                        <iframe
+                          title="Aura Beauty Studio Map"
+                          src={STUDIO_MAP_EMBED_URL}
+                          className="w-full h-full border-0"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7">
+                    <div className="bg-[#FAF7F2] rounded-3xl p-6 sm:p-10 border border-[#E6DEC8]">
+                      {submittedRecord ? (
+                        <div className="space-y-4 py-4">
+                          <h4 className="font-serif-editorial text-3xl text-[#1C1917]">
+                            Booking Request Prepared!
+                          </h4>
+                          <p className="text-xs text-[#655E57]">
+                            Thank you, <strong>{submittedRecord.client.fullName}</strong>. Tap below to send your request directly to Pooja on WhatsApp:
+                          </p>
+                          <CreepyButton theme="sage" className="w-full" onClick={() => openWhatsAppWindow(submittedRecord)}>
+                            <span>Send Booking Details on WhatsApp →</span>
+                          </CreepyButton>
+                          <CreepyButton theme="espresso" className="w-full" onClick={() => setSubmittedRecord(null)}>
+                            <span>Book Another Service</span>
+                          </CreepyButton>
+                        </div>
+                      ) : (
+                        <form onSubmit={handleFormSubmit} className="space-y-5">
+                          <h3 className="font-serif-editorial text-2xl sm:text-3xl text-[#1C1917]">
+                            Appointment Request
+                          </h3>
+                          <div>
+                            <label className="block text-xs font-semibold uppercase text-[#1C1917] mb-1">
+                              Full Name *
+                            </label>
+                            <input
+                              type="text"
+                              name="fullName"
+                              value={formData.fullName}
+                              onChange={handleInputChange}
+                              placeholder="e.g., Ananya Sharma"
+                              className="w-full px-4 py-3 rounded-xl bg-[#F3EDE4] border border-[#E6DEC8] text-sm text-[#1C1917]"
+                            />
+                            {formErrors.fullName && <p className="text-xs text-red-600 mt-1">{formErrors.fullName}</p>}
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-semibold uppercase text-[#1C1917] mb-1">
+                              Phone / WhatsApp Number *
+                            </label>
+                            <input
+                              type="tel"
+                              name="phone"
+                              value={formData.phone}
+                              onChange={handleInputChange}
+                              placeholder="e.g., +91 98200 12345"
+                              className="w-full px-4 py-3 rounded-xl bg-[#F3EDE4] border border-[#E6DEC8] text-sm text-[#1C1917]"
+                            />
+                            {formErrors.phone && <p className="text-xs text-red-600 mt-1">{formErrors.phone}</p>}
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-semibold uppercase text-[#1C1917] mb-1">
+                              Service Interested In *
+                            </label>
+                            <select
+                              name="service"
+                              value={formData.service}
+                              onChange={handleInputChange}
+                              className="w-full px-4 py-3 rounded-xl bg-[#F3EDE4] border border-[#E6DEC8] text-sm text-[#1C1917]"
+                            >
+                              {SERVICES_DATA.map((srv) => (
+                                <option key={srv.id} value={srv.name}>
+                                  {srv.name} ({srv.duration} — {srv.price})
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs font-semibold uppercase text-[#1C1917] mb-1">
+                                Preferred Date *
+                              </label>
+                              <input
+                                type="date"
+                                name="preferredDate"
+                                min={todayStr}
+                                value={formData.preferredDate}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 rounded-xl bg-[#F3EDE4] border border-[#E6DEC8] text-sm text-[#1C1917]"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold uppercase text-[#1C1917] mb-1">
+                                Preferred Time Window
+                              </label>
+                              <select
+                                name="timeSlot"
+                                value={formData.timeSlot}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 rounded-xl bg-[#F3EDE4] border border-[#E6DEC8] text-sm text-[#1C1917]"
+                              >
+                                <option value="Morning (10:00 AM – 12:30 PM)">Morning (10:00 AM – 12:30 PM)</option>
+                                <option value="Afternoon (12:30 PM – 4:00 PM)">Afternoon (12:30 PM – 4:00 PM)</option>
+                                <option value="Evening (4:00 PM – 8:00 PM)">Evening (4:00 PM – 8:00 PM)</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <CreepyButton type="submit" theme="roseBronze" className="w-full" disabled={isSubmitting}>
+                            <span>{isSubmitting ? 'Preparing...' : 'Confirm Appointment Request →'}</span>
+                          </CreepyButton>
+                        </form>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* FOOTER */}
+            <footer className="bg-[#171412] text-[#FAF7F2] py-16">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+                <span className="font-serif-editorial text-3xl tracking-[0.16em] block">AURA BEAUTY STUDIO</span>
+                <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-[#D49B82] block">
+                  BY POOJA • VASTRAL, AHMEDABAD
+                </span>
+                <p className="text-xs text-[#FAF7F2]/60 pt-4">
+                  © 2026 Aura Beauty Studio by Pooja | All Rights Reserved
+                </p>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
